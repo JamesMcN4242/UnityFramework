@@ -99,8 +99,7 @@ public static class UtilityToolbar {
         //Ensure we're not already making a build
         if (!BuildPipeline.isBuildingPlayer)
         {
-            //Todo: Allow user to specify path
-            string savePath = "tempPath";
+            string savePath = EditorUtility.SaveFilePanel("Save location", string.Empty, string.Empty, string.Empty);
 
             BuildPlayerOptions buildPlayerOptions = GetBuildPlayerOptions(target, savePath, autoRunAfterBuild);
             string report = BuildPipeline.BuildPlayer(buildPlayerOptions);
