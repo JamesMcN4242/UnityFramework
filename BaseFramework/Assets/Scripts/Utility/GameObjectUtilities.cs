@@ -61,4 +61,33 @@ public static class GameObjectUtilities
 
         return null;
     }
+
+    /// <summary>
+    /// Remove the given component type if it exists on the object
+    /// </summary>
+    /// <typeparam name="T">Component type to destroy</typeparam>
+    /// <param name="go">Calling Gameobject</param>
+    public static void RemoveComponent<T>(this GameObject go) where T : Component
+    {
+        T componentToRemove = go.GetComponent<T>();
+        if(componentToRemove != null)
+        {
+           Object.Destroy(componentToRemove);
+        }
+    }
+
+    /// <summary>
+    /// Remove the given component type from a specified child object (if both the child and object exist)
+    /// </summary>
+    /// <typeparam name="T">Component of type to destroy</typeparam>
+    /// <param name="go">Calling Gameobject</param>
+    /// <param name="childName">Name of child to remove component from</param>
+    public static void RemoveComponentFromChild<T>(this GameObject go, string childName) where T : Component
+    {
+        T componentToRemove = go.GetComponentFromChild<T>(childName);
+        if(componentToRemove != null)
+        {
+            Object.Destroy(componentToRemove);
+        }
+    }
 }
