@@ -12,6 +12,7 @@ using UnityEngine;
 /// </summary>
 public static class GameObjectUtilities
 {
+    private static Dictionary<string, GameObject> s_prefabDictionary = null;
 
     /// <summary>
     /// Find a child with the specified name
@@ -89,5 +90,26 @@ public static class GameObjectUtilities
         {
             Object.Destroy(componentToRemove);
         }
+    }
+
+    /// <summary>
+    /// Load the prefab from a file within a resources folder, if not already loaded in
+    /// Also save it in a static dictionary for more efficient loading in future
+    /// </summary>
+    /// <param name="prefabPath">Prefab path relative to a resources folder</param>
+    /// <returns>Loaded prefab</returns>
+    public static GameObject LoadPrefab(string prefabPath)
+    {
+        if (s_prefabDictionary == null)
+        {
+            s_prefabDictionary = new Dictionary<string, GameObject>();
+        }
+
+        if(!s_prefabDictionary.ContainsKey(prefabPath))
+        {
+            s_prefabDictionary.Add(prefabPath, Resources.Load<GameObject>(prefabPath));
+        }
+
+        return s_prefabDictionary[prefabPath];
     }
 }
