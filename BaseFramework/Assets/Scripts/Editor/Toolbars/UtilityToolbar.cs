@@ -102,12 +102,8 @@ public static class UtilityToolbar {
             string savePath = EditorUtility.SaveFilePanel("Save location", string.Empty, string.Empty, string.Empty);
 
             BuildPlayerOptions buildPlayerOptions = GetBuildPlayerOptions(target, savePath, autoRunAfterBuild);
-            string report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-
-            if (!string.IsNullOrEmpty(report))
-            {
-                Debug.Log("Build Report: " + report);
-            }
+            var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            Debug.Log("Build Report: " + report);            
         }
         else
         {
