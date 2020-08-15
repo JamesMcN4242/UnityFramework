@@ -8,7 +8,7 @@ namespace PersonalFramework
     /// <summary>
     /// State base for controlling logical states
     /// </summary>
-    public class FlowStateBase
+    public abstract class FlowStateBase
     {
         private enum Status { START_PRESENTING, PRESENTING, START_ACTIVE, ACTIVE, START_DISMISSING, DISMISSING, DISMISSED };
         private Status m_status = Status.START_PRESENTING;
