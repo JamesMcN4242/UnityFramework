@@ -10,7 +10,8 @@ namespace PersonalFramework
 {
     public class StateController
     {
-        private Stack<FlowStateBase> m_stateStack = new Stack<FlowStateBase>();
+        private readonly Stack<FlowStateBase> m_stateStack = new Stack<FlowStateBase>();
+        private FlowStateBase m_stateToChangeTo;
 
         public void PushState(FlowStateBase state)
         {
@@ -19,10 +20,17 @@ namespace PersonalFramework
             state.SetStateController(this);
         }
 
-        public void PopState(FlowStateBase state)
+        public void PopState()
         {
-            Debug.Assert(m_stateStack.Count > 0 && m_stateStack.Peek() == state, "Trying to pop non active state");
+            Debug.Assert(m_stateStack.Count > 0, "Trying to pop a state which doesn't exist");
             m_stateStack.Peek().EndActiveState();
+        }
+
+        public void ChangeState(FlowStateBase state)
+        {
+            Debug.Assert(m_stateToChangeTo == null, "Trying to change state, when one is already specified.");
+            m_stateToChangeTo = state;
+            PopState();
         }
 
         public void UpdateStack()
@@ -34,6 +42,12 @@ namespace PersonalFramework
                 if (state.IsDismissed())
                 {
                     m_stateStack.Pop();
+
+                    if (m_stateToChangeTo != null)
+                    {
+                        m_stateStack.Push(m_stateToChangeTo);
+                        m_stateToChangeTo = null;
+                    }
                 }
             }
         }
